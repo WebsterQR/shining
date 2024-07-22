@@ -23,7 +23,9 @@ def start(message):
 def parse_text_register(message):
     if message.text == "Авторизоваться":
         if not database.check_user_already_exist(message.chat.id):
-            database.add_user(chat_id=message.chat.id, name=message.from_user.first_name + " " + message.from_user.last_name, login=message.from_user.username)
+            first_name = message.from_user.first_name if message.from_user.first_name else ""
+            last_name = message.from_user.last_name if message.from_user.last_name else ""
+            database.add_user(chat_id=message.chat.id, name=first_name + " " + last_name, login=message.from_user.username)
             answer = constants.TextTemplates.message_after_auth
         else:
             answer = constants.TextTemplates.message_already_auth

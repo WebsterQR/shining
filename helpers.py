@@ -11,6 +11,7 @@ def delete_users_dialog(bot, message):
 
 def delete_users(message):
     logins = message.text.split('\n')
+    logins = [each.strip() for each in logins]
     names = database.get_name_by_login(logins)
     names = [each[0] for each in names]
     answer = f"Ты хочешь удалить следующих пользователей: \n* {'\n* '.join(names)} \n Все верно?"
