@@ -6,6 +6,7 @@ class COLUMNS:
     chat_id = "chat_id"
     name = "user_name"
     login = "login"
+    notifications = "notifications"
 
 def database_connect():
     try:
@@ -39,13 +40,13 @@ def add_user(chat_id: int, name: str, login: str) -> None:
     with database_connect() as conn:
         cursor = conn.cursor()
         query = (f"INSERT INTO {config.POSTGRES_TABLES.users} "
-                 f"VALUES ({chat_id}, '{login}', '{name}')")
+                 f"VALUES ({chat_id}, '{login}', '{name}', {True})")
         cursor.execute(query=query)
 
 def get_all_users() -> list:
     with database_connect() as conn:
         cursor = conn.cursor()
-        query = f"SELECT {COLUMNS.chat_id} FROM {config.POSTGRES_TABLES.users}"
+        query = f"SELECT {COLUMNS.chat_id} FROM {config.POSTGRES_TABLES.users} WHERE {COLUMNS.notifications}={True}"
         cursor.execute(query=query)
         data = cursor.fetchall()
 
@@ -74,3 +75,19 @@ def get_name_by_login(logins: str | list) -> None:
         cursor.execute(query=query)
         data = cursor.fetchall()
     return data
+
+def switch_notifications_flag(chat_id: int, new_value: bool) -> None:
+    with database_connect() as conn:
+        cursor = conn.cursor()
+        query = f"UPDATE {config.POSTGRES_TABLES.users} SET {COLUMNS.notifications}={new_value} WHERE {COLUMNS.chat_id}={chat_id}"
+        cursor.execute(query=query)
+
+def check_user_notifications_value(chat_id: int) -> bool:
+    with database_connect() as conn:
+        cursor = conn.cursor()
+        query = f"SELECT {COLUMNS.notifications} FROM {config.POSTGRES_TABLES.users} WHERE {COLUMNS.chat_id}={chat_id}"
+        cursor.execute(query=query)
+        data = cursor.fetchall()
+    if data:
+        #TODO: обработать ситуацию когда не нашлись данные
+        return data[0][0]

@@ -41,13 +41,41 @@ def parse_text_register(message):
 
     if message.text == "Удаление пользователей":
         helpers.delete_users_dialog(bot, message)
+    if message.text == "🗂 Таблица игр":
+        bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.message_games_table, parse_mode='MarkdownV2', reply_markup=keyboards.MainMenu.keyboard)
+    if message.text == "📇 Презентация Сияния":
+        bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.message_team_promo,
+                         parse_mode='MarkdownV2', reply_markup=keyboards.MainMenu.keyboard)
+    if message.text == "🔗 Полезные ссылки":
+        bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.message_useful_links,
+                         parse_mode='MarkdownV2', reply_markup=keyboards.MainMenu.keyboard, disable_web_page_preview=True)
+    if message.text == "🍔 База едален":
+        bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.message_food,
+                         parse_mode='MarkdownV2', reply_markup=keyboards.MainMenu.keyboard)
+    if message.text == "✅ Включить рассылку о мероприятиях":
+        is_already_notified = database.check_user_notifications_value(chat_id=message.chat.id)
+        if is_already_notified:
+            bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.notifications_already_enabled, reply_markup=keyboards.MainMenu.keyboard)
+        else:
+            database.switch_notifications_flag(chat_id=message.chat.id, new_value=True)
+            bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.notifications_enabled, reply_markup=keyboards.MainMenu.keyboard)
+    if message.text == "❌ Отменить рассылку о мероприятиях":
+        ans = bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.message_notifications_off_confirm, reply_markup=keyboards.Confirm.keyboard)
+        bot.register_next_step_handler(ans, confirm_notifications_off)
+
 
 def send_mailing(message):
     all_users_chat_ids = database.get_all_users()
-    bot.send_message(message.chat.id, text=str(all_users_chat_ids))
     for chat_id in all_users_chat_ids:
         bot.send_message(chat_id=chat_id, text=constants.TextTemplates.template_for_mailing.format(author="Автор", message=message.text))
 
+def confirm_notifications_off(message):
+    if message.text == "Да":
+        bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.notifications_disabled, reply_markup=keyboards.MainMenu.keyboard)
+        database.switch_notifications_flag(chat_id=message.chat.id, new_value=False)
+    else:
+        bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.notifications_not_disabled,
+                         reply_markup=keyboards.MainMenu.keyboard)
 
 
 bot.polling(none_stop=True, interval=0)

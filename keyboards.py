@@ -9,8 +9,16 @@ class Register:
 
 class MainMenu:
     keyboard = ReplyKeyboardMarkup()
-    button_send_message = KeyboardButton("Сделать рассылку")
-    keyboard.row(button_send_message)
+    games_table = KeyboardButton("🗂 Таблица игр")
+    team_promo = KeyboardButton("📇 Презентация Сияния")
+    food_data = KeyboardButton("🍔 База едален")
+    button_notifications_on = KeyboardButton("✅ Включить рассылку о мероприятиях")
+    button_notifications_off = KeyboardButton("❌ Отменить рассылку о мероприятиях")
+    useful_links = KeyboardButton("🔗 Полезные ссылки")
+    keyboard.row(games_table, team_promo)
+    keyboard.row(useful_links, food_data)
+    keyboard.row(button_notifications_on, button_notifications_off)
+
 
 class MainMenuForAdmins:
     keyboard = ReplyKeyboardMarkup()
