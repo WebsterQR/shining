@@ -14,7 +14,8 @@ def delete_users(message):
     logins = [each.strip() for each in logins]
     names = database.get_name_by_login(logins)
     names = [each[0] for each in names]
-    answer = f"Ты хочешь удалить следующих пользователей: \n* {'\n* '.join(names)} \n Все верно?"
+    users_list_str = '\n* '.join(names)
+    answer = f"Ты хочешь удалить следующих пользователей: \n* {users_list_str} \n Все верно?"
     msg = bot.send_message(chat_id=message.chat.id, text=answer, reply_markup=keyboards.Confirm.keyboard)
     bot.register_next_step_handler(msg, confirm_delete, logins)
 
