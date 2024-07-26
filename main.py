@@ -60,8 +60,13 @@ def parse_text_register(message):
             database.switch_notifications_flag(chat_id=message.chat.id, new_value=True)
             bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.notifications_enabled, reply_markup=keyboards.MainMenu.keyboard)
     if message.text == "❌ Отменить рассылку о мероприятиях":
-        ans = bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.message_notifications_off_confirm, reply_markup=keyboards.Confirm.keyboard)
-        bot.register_next_step_handler(ans, confirm_notifications_off)
+        is_already_notified = database.check_user_notifications_value(chat_id=message.chat.id)
+        if not is_already_notified:
+            bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.notifications_already_disabled,
+                             reply_markup=keyboards.MainMenu.keyboard)
+        else:
+            ans = bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.message_notifications_off_confirm, reply_markup=keyboards.Confirm.keyboard)
+            bot.register_next_step_handler(ans, confirm_notifications_off)
 
 
 def send_mailing(message):
