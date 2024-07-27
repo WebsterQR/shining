@@ -34,7 +34,6 @@ def parse_text_register(message):
         bot.send_message(chat_id=message.chat.id, text=answer, reply_markup=reply_keyboard.keyboard)
 
     if message.text == "Сделать рассылку":
-        print('mailing')
         answer = "Укажи текст который нужно отправить"
         msg = bot.send_message(chat_id=message.chat.id, text=answer)
         bot.register_next_step_handler(msg, send_mailing)
@@ -71,8 +70,10 @@ def parse_text_register(message):
 
 def send_mailing(message):
     all_users_chat_ids = database.get_all_users()
+    author = message.from_user.username
     for chat_id in all_users_chat_ids:
-        bot.send_message(chat_id=chat_id, text=constants.TextTemplates.template_for_mailing.format(author="Автор", message=message.text))
+        bot.send_message(chat_id=chat_id, text=constants.TextTemplates.template_for_mailing.format(author=author, message=message.text))
+        bot.send_message(chat_id=chat_id, text=constants.TextTemplates.send_answer_to, reply_markup=keyboards.MainMenu.keyboard)
 
 def confirm_notifications_off(message):
     if message.text == "Да":
