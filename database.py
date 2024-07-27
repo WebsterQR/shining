@@ -7,6 +7,7 @@ class COLUMNS:
     name = "user_name"
     login = "login"
     notifications = "notifications"
+    is_test = "is_test"
 
 def database_connect():
     try:
@@ -44,11 +45,14 @@ def add_user(chat_id: int, name: str, login: str) -> None:
         cursor.execute(query=query)
 
 def get_all_users() -> list:
+    append_query = f" AND {COLUMNS.is_test}={True}" if config.TEST_MODE else ""
     with database_connect() as conn:
         cursor = conn.cursor()
-        query = f"SELECT {COLUMNS.chat_id} FROM {config.POSTGRES_TABLES.users} WHERE {COLUMNS.notifications}={True}"
+        query = f"SELECT {COLUMNS.chat_id} FROM {config.POSTGRES_TABLES.users} WHERE {COLUMNS.notifications}={True}" + append_query
+        print(query)
         cursor.execute(query=query)
         data = cursor.fetchall()
+        print(data)
 
     return [el[0] for el in data]
 
