@@ -85,4 +85,4 @@ def confirm_notifications_off(message):
                          reply_markup=keyboards.MainMenu.keyboard)
 
 
-bot.polling(none_stop=True, interval=0)
+bot.infinity_polling(none_stop=True)
