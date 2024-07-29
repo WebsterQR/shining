@@ -1,3 +1,5 @@
+from time import sleep
+
 import config
 import constants
 import database
@@ -95,5 +97,10 @@ def confirm_notifications_off(message):
         bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.notifications_not_disabled,
                          reply_markup=keyboards.MainMenu.keyboard)
 
+while True:
+    try:
+        bot.infinity_polling(none_stop=True)
+    except Exception as _ex:
+        print(_ex)
+        sleep(10)
 
-bot.infinity_polling(none_stop=True)
