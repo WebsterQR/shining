@@ -6,10 +6,12 @@ import keyboards
 
 bot = config.bot
 
+
 def delete_users_dialog(bot, message):
     answer = "Укажи логины пользователей, с которыми нужно прекратить общение (каждый логин в новой строке)"
     msg = bot.send_message(chat_id=message.chat.id, text=answer)
     bot.register_next_step_handler(msg, delete_users)
+
 
 def delete_users(message):
     logins = message.text.split('\n')
@@ -21,9 +23,11 @@ def delete_users(message):
     msg = bot.send_message(chat_id=message.chat.id, text=answer, reply_markup=keyboards.Confirm.keyboard)
     bot.register_next_step_handler(msg, confirm_delete, logins)
 
+
 def confirm_delete(message, logins):
     if message.text == "Да":
         database.delete_users(users=logins)
         bot.send_message(chat_id=message.chat.id, text="Удалено", reply_markup=keyboards.MainMenuForAdmins.keyboard)
     elif message.text == "Нет":
-        bot.send_message(chat_id=message.chat.id, text="Оставлены в чате", reply_markup=keyboards.MainMenuForAdmins.keyboard)
+        bot.send_message(chat_id=message.chat.id, text="Оставлены в чате",
+                         reply_markup=keyboards.MainMenuForAdmins.keyboard)

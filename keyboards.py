@@ -3,11 +3,13 @@
 # from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 
+
 class Register:
     keyboard = ReplyKeyboardMarkup()
     button_register = KeyboardButton("Авторизоваться")
     keyboard.row(button_register)
     # keyboard.add(register)
+
 
 class MainMenu:
     keyboard = ReplyKeyboardMarkup()
@@ -28,6 +30,7 @@ class MainMenuForAdmins:
     button_delete_users = KeyboardButton("Удаление пользователей")
     keyboard.row(button_send_message)
     keyboard.row(button_delete_users)
+
 
 class Confirm:
     keyboard = ReplyKeyboardMarkup()
