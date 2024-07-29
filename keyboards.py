@@ -1,3 +1,5 @@
+# pylint: disable=line-too-long
+
 # from aiogram.types import ReplyKeyboardMarkup, KeyboardButton
 from telebot.types import ReplyKeyboardMarkup, KeyboardButton
 

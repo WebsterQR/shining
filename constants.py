@@ -1,3 +1,4 @@
+# pylint: disable=line-too-long
 class Links:
     team_table = "https://docs.google.com/spreadsheets/d/1Gcs1f7JCxEGLhlPgex6oHdYYWZ0c9aDpWigDJYK1YAc/edit#gid=0"
     team_promo = "https://docs.google.com/presentation/d/1HwX4cHJrDhyokuUSyL_B1SD0sI3O2Jp0R9zU4trcavs/edit?usp=sharing"
@@ -9,7 +10,8 @@ class Links:
 
 
 class TextTemplates:
-    template_for_mailing = "Привет, Сияющий! \n\nТебе сообщение от @{author} \n {message}"
+    template_for_mailing = ("Привет, Сияющий! \n\n"
+                            "Тебе сообщение от @{author} \n {message}")
     message_before_auth = ("Привет, сияющий✨\n\n"
                            "Добро пожаловать в бот мероприятий ОПГ Сияния\n\n"
                            "Данный бот нужен для того, чтобы ты вовремя узнавал обо всех играх и встречах Сияющих, будь то кино, путешествие или что-то ещё 🔥\n\n"

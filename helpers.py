@@ -1,3 +1,5 @@
+# pylint: disable=line-too-long
+
 import config
 import database
 import keyboards

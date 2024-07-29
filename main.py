@@ -1,5 +1,4 @@
-import telebot
-from telebot import types
+# pylint: disable=line-too-long
 
 import config
 import constants
