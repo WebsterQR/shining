@@ -18,7 +18,7 @@ def start(message):
 
 
 @bot.message_handler(content_types=["text"])
-def parse_text_register(message):  # noqa: C901
+def parse_text_register(message):
     if message.text == "Авторизоваться":
         if not database.check_user_already_exist(message.chat.id):
             first_name = message.from_user.first_name if message.from_user.first_name else ""
