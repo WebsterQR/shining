@@ -78,14 +78,34 @@ def parse_text_register(message):  # noqa: C901
 
 
 def send_mailing(message):
+    need_collect_answers, event_name = database.create_event()
     all_users_chat_ids = database.get_all_users()
+    if config.TEST_MODE:
+        all_users_chat_ids = [176063054]
     author = message.from_user.username
     for chat_id in all_users_chat_ids:
         print(all_users_chat_ids)
-        bot.send_message(chat_id=chat_id,
-                         text=constants.TextTemplates.template_for_mailing.format(author=author, message=message.text))
-        bot.send_message(chat_id=chat_id, text=constants.TextTemplates.send_answer_to,
-                         reply_markup=keyboards.MainMenu.keyboard)
+        if not need_collect_answers:
+            bot.send_message(chat_id=chat_id,
+                             text=constants.TextTemplates.template_for_mailing.format(author=author,
+                                                                                      message=message.text),
+                             reply_markup=keyboards.MainMenu.keyboard)
+        else:
+            answer = bot.send_message(chat_id=chat_id,
+                             text=constants.TextTemplates.template_for_mailing.format(author=author, event_name=event_name, message=message.text), reply_markup=keyboards.Participate.keyboard)
+            # bot.send_message(chat_id=chat_id, text=constants.TextTemplates.send_answer_to,
+            #                  reply_markup=keyboards.Participate.keyboard)
+            participate_answer = bot.register_next_step_handler(answer, collect_answers, event_name)
+
+def collect_answers(message, event_name):
+    if message.text == "Участвую":
+        bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.participate_yes,
+                         parse_mode='MarkdownV2', reply_markup=keyboards.MainMenu.keyboard)
+        database.add_event_participation(participate=True, event_name=event_name, chat_id=message.chat.id)
+    if message.text == "Не участвую":
+        bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.participate_no,
+                         parse_mode='MarkdownV2', reply_markup=keyboards.MainMenu.keyboard)
+    # bot.send_message(chat_id=message.chat.id, text=event_name, reply_markup=keyboards.MainMenu.keyboard)
 
 
 def confirm_notifications_off(message):

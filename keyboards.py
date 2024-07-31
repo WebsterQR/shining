@@ -37,3 +37,9 @@ class Confirm:
     button_yes = KeyboardButton("Да")
     button_no = KeyboardButton("Нет")
     keyboard.row(button_yes, button_no)
+
+class Participate:
+    keyboard = ReplyKeyboardMarkup()
+    button_particapate_yes = KeyboardButton("Участвую")
+    button_particapate_no = KeyboardButton("Не участвую")
+    keyboard.row(button_particapate_yes, button_particapate_no)

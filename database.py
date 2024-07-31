@@ -1,4 +1,5 @@
 # pylint: disable=line-too-long
+import datetime
 
 import psycopg2
 import config
@@ -108,3 +109,17 @@ def check_user_notifications_value(chat_id: int) -> bool:
     if data:
         # TODO: обработать ситуацию когда не нашлись данные
         return data[0][0]
+
+def create_event():
+    with database_connect() as conn:
+        cursor = conn.cursor()
+        new_table_name = f'Event_from_{str(datetime.date.today()).replace('-', '_')}'
+        query = f"CREATE TABLE {new_table_name} (chat_id SERIAL PRIMARY KEY, participate BOOLEAN)"
+        cursor.execute(query=query)
+    return True, new_table_name
+
+def add_event_participation(participate: bool, event_name: str, chat_id: int) -> None:
+    with database_connect() as conn:
+        cursor = conn.cursor()
+        query = f"INSERT INTO {event_name} VALUES ({chat_id}, {participate})"
+        cursor.execute(query=query)
