@@ -28,7 +28,8 @@ class MainMenuForAdmins:
     keyboard = ReplyKeyboardMarkup()
     button_send_message = KeyboardButton("Сделать рассылку")
     button_delete_users = KeyboardButton("Удаление пользователей")
-    keyboard.row(button_send_message)
+    button_list_users = KeyboardButton("Список участников")
+    keyboard.row(button_send_message, button_list_users)
     keyboard.row(button_delete_users)
 
 
@@ -37,3 +38,9 @@ class Confirm:
     button_yes = KeyboardButton("Да")
     button_no = KeyboardButton("Нет")
     keyboard.row(button_yes, button_no)
+
+
+class Cansel:
+    keyboard = ReplyKeyboardMarkup()
+    cansel = KeyboardButton("Отменить и вернуться в меню")
+    keyboard.row(cansel)
