@@ -50,6 +50,9 @@ def parse_text_register(message):  # noqa: C901
 
     if message.text == "Удаление пользователей":
         helpers.delete_users_dialog(bot, message)
+    if message.text == "Список участников":
+        prepared_text = helpers.prepare_users_list_message()
+        bot.send_message(chat_id=message.chat.id, text=prepared_text, reply_markup=keyboards.MainMenuForAdmins.keyboard)
     if message.text == "🗂 Таблица игр":
         bot.send_message(chat_id=message.chat.id, text=constants.TextTemplates.message_games_table,
                          parse_mode='MarkdownV2', reply_markup=keyboards.MainMenu.keyboard)

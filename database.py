@@ -65,6 +65,18 @@ def get_all_users() -> list:
     return [el[0] for el in data]
 
 
+def get_all_users_full_data(enable_notifications: bool) -> list:
+    with database_connect() as conn:
+        cursor = conn.cursor()
+        query = (f"SELECT * FROM {config.POSTGRES_TABLES.users} WHERE "
+                 f"{COLUMNS.notifications}={enable_notifications}")
+        print(query)
+        cursor.execute(query=query)
+        data = cursor.fetchall()
+        print(data)
+    return data
+
+
 def delete_users(users: str | list) -> None:
     if isinstance(users, str):
         users = [users]
