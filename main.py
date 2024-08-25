@@ -5,6 +5,7 @@ import constants
 import database
 import helpers
 import keyboards
+import sheets
 
 # bot = telebot.TeleBot(config.Telegram.TOKEN)
 bot = config.bot
@@ -85,6 +86,15 @@ def parse_text_register(message):  # noqa: C901
                                    text=constants.TextTemplates.message_notifications_off_confirm,
                                    reply_markup=keyboards.Confirm.keyboard)
             bot.register_next_step_handler(ans, confirm_notifications_off)
+    if message.text == "Предстоящие игры сияния":
+        upcoming_games = sheets.get_actual_event_names()
+        print(upcoming_games)
+        text = "Вот предстоящие игры сияния, нажав на любую из них можно получить более подробную информацию об игре"
+        bot.send_message(chat_id=message.chat.id,
+                         text=text,
+                         reply_markup=keyboards.collect_keyboard_games_list(upcoming_games=upcoming_games))
+    if message.text == "Возврат в главное меню":
+        bot.send_message(chat_id=message.chat.id, text=".", reply_markup=keyboards.MainMenu.keyboard)
 
 
 def send_mailing(message):

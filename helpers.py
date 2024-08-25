@@ -62,3 +62,5 @@ def prepare_users_list_message():
                   f"* {len(all_users_without_notifications)} без уведомлений")
 
     return text_on + text_off + count_data
+
+

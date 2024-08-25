@@ -19,9 +19,11 @@ class MainMenu:
     button_notifications_on = KeyboardButton("✅ Включить рассылку о мероприятиях")
     button_notifications_off = KeyboardButton("❌ Отменить рассылку о мероприятиях")
     useful_links = KeyboardButton("🔗 Полезные ссылки")
+    upcoming_games = KeyboardButton("Предстоящие игры сияния")
     keyboard.row(games_table, team_promo)
     keyboard.row(useful_links, food_data)
     keyboard.row(button_notifications_on, button_notifications_off)
+    keyboard.row(upcoming_games)
 
 
 class MainMenuForAdmins:
@@ -44,3 +46,12 @@ class Cansel:
     keyboard = ReplyKeyboardMarkup()
     cansel = KeyboardButton("Отменить и вернуться в меню")
     keyboard.row(cansel)
+
+def collect_keyboard_games_list(upcoming_games: list) -> ReplyKeyboardMarkup:
+    keyboard = ReplyKeyboardMarkup()
+    for game in upcoming_games:
+        button = KeyboardButton(game)
+        keyboard.row(button)
+    menu_button = KeyboardButton("Возврат в главное меню")
+    keyboard.row(menu_button)
+    return keyboard

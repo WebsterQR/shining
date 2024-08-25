@@ -68,3 +68,6 @@ class TextTemplates:
     send_answer_to = ("--------------\n\n❗️❗️❗️\nСияющий, важно\n\nПока наш бот не умеет записывать людей на игры, "
                       "поэтому, чтобы записать на игру, напиши об этом @Narp13 или @KatherinaPolezhaeva, "
                       "указав игру и дату")
+
+class HTML_PATHS:
+    event_cell = "goog-inline-block docs-sheet-tab-caption"
