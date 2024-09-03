@@ -102,7 +102,7 @@ def send_mailing(message):
                                  author=author, message=message.text)
                              )
             bot.send_message(chat_id=chat_id, text=constants.TextTemplates.send_answer_to,
-                             reply_markup=keyboards.MainMenuForAdmins.keyboard)
+                             reply_markup=keyboards.MainMenu.keyboard)
 
 
 def confirm_notifications_off(message):
